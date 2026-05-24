@@ -1,0 +1,21 @@
+purchase = float(input("Enter total purchase amount (NPR): "))
+member = input("Are you a loyalty member? (yes/no): ").lower()
+
+discount = 0
+
+if purchase < 1000:
+    discount = 0
+elif purchase <= 4999:
+    discount = 0.05
+elif purchase <= 14999:
+    discount = 0.10
+else:
+    discount = 0.20
+
+final_price = purchase - (purchase * discount)
+
+# Extra 5% loyalty discount
+if member == "yes":
+    final_price -= final_price * 0.05
+
+print("Final payable amount: NPR", round(final_price, 2))

@@ -1,0 +1,29 @@
+passwords = ["hello", "Hello123", "H3ll0@World", "12345678", "MyP@ss!"]
+
+special = "!@#$%^&*"
+
+for password in passwords:
+    print("\nPassword:", password)
+
+    missing = []
+
+    if len(password) < 8:
+        missing.append("At least 8 characters")
+
+    if not any(c.isupper() for c in password):
+        missing.append("One uppercase letter")
+
+    if not any(c.islower() for c in password):
+        missing.append("One lowercase letter")
+
+    if not any(c.isdigit() for c in password):
+        missing.append("One digit")
+
+    if not any(c in special for c in password):
+        missing.append("One special character (!@#$%^&*)")
+
+    if len(missing) == 0:
+        print("Strong password")
+    else:
+        print("Weak password")
+        print("Missing:", ", ".join(missing))
