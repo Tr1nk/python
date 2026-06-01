@@ -1,0 +1,300 @@
+# Inventory data
+inventory = {
+    "rice":  {"price": 120, "stock": 20},
+    "milk":  {"price": 90,  "stock": 10},
+    "bread": {"price": 60,  "stock": 15},
+    "eggs":  {"price": 15,  "stock": 30}
+}
+
+# Customer cart
+cart = {
+    "rice": 2,
+    "milk": 3,
+    "eggs": 12
+}
+
+
+def process_order(inventory, cart):
+    total_bill = 0
+    purchased_items = {}
+
+    # Process each item in cart
+    for item, quantity in cart.items():
+
+        if item in inventory:
+            if inventory[item]["stock"] >= quantity:
+                item_total = inventory[item]["price"] * quantity
+                total_bill += item_total
+
+                purchased_items[item] = {
+                    "quantity": quantity,
+                    "cost": item_total
+                }
+
+                # Update stock
+                inventory[item]["stock"] -= quantity
+
+            else:
+                print(f"Sorry, not enough stock for {item}")
+
+        else:
+            print(f"{item} is not available in inventory")
+
+    # Print Bill
+    print("---- Bill ----")
+    for item, details in purchased_items.items():
+        print(f"{item} x{details['quantity']} = NPR {details['cost']}")
+
+    print(f"Grand Total: NPR {total_bill}")
+    print("--------------")
+
+    # Print Updated Inventory
+    print("Updated stock:")
+    for item in inventory:
+        print(f"{item} = {inventory[item]['stock']}")
+
+
+# Run function
+process_order(inventory, cart)
+
+
+
+
+
+
+
+
+
+# Sensor data
+sensors = [
+    ("Chatara", 2.8),
+    ("Tribeni Ghat", 5.4),
+    ("Koshi Barrage", 4.1),
+    ("Sunsari Bridge", 1.9),
+    ("Saptakoshi Camp", 6.0),
+]
+
+# Function to check water level
+def check_water_level(location, level_metres):
+
+    if level_metres < 3:
+        return "Safe"
+
+    elif 3 <= level_metres <= 5:
+        return "Warning — Alert nearby villages"
+
+    else:
+        return "DANGER — Evacuate immediately!"
+
+
+# Check each sensor and print result
+for location, level in sensors:
+    status = check_water_level(location, level)
+    print(f"{location} ({level} m): {status}")
+
+
+
+
+
+
+
+
+
+
+    # Nepali month names
+bs_months = [
+    "Baisakh", "Jestha", "Ashadh", "Shrawan", "Bhadra", "Ashwin",
+    "Kartik", "Mangsir", "Poush", "Magh", "Falgun", "Chaitra"
+]
+
+# Customer data
+customers = [
+    {"name": "Ramesh Thapa", "date": "1985-06-24", "cal": "AD", "need": "BS", "style": "full"},
+    {"name": "Sunita Karki", "date": "2055-09-10", "cal": "BS", "need": "AD", "style": "iso"},
+    {"name": "Bikash Rai", "date": "1998-11-30", "cal": "AD", "need": "BS", "style": "nepali"},
+    {"name": "Anjali Gurung", "date": "2040-01-05", "cal": "BS", "need": "AD", "style": "full"},
+]
+
+# Function to add day suffix
+def day_suffix(day):
+    if 10 <= day <= 20:
+        return "th"
+    elif day % 10 == 1:
+        return "st"
+    elif day % 10 == 2:
+        return "nd"
+    elif day % 10 == 3:
+        return "rd"
+    else:
+        return "th"
+
+
+# Function to convert date
+def convert_date(date_str, from_cal, to_cal):
+
+    year, month, day = map(int, date_str.split("-"))
+
+    if from_cal == to_cal:
+        return date_str
+
+    elif from_cal == "AD" and to_cal == "BS":
+        year += 56
+
+    elif from_cal == "BS" and to_cal == "AD":
+        year -= 56
+
+    return f"{year:04d}-{month:02d}-{day:02d}"
+
+
+# Print formatted results
+for customer in customers:
+    converted = convert_date(customer["date"], customer["cal"], customer["need"])
+
+    year, month, day = map(int, converted.split("-"))
+
+    if customer["style"] == "iso":
+        output = converted
+
+    elif customer["style"] == "full":
+        if customer["need"] == "BS":
+            output = f"{day}{day_suffix(day)} {bs_months[month-1]}, {year} BS"
+        else:
+            output = f"{day}-{month:02d}-{year} AD"
+
+    elif customer["style"] == "nepali":
+        output = f"{day} {bs_months[month-1]} {year} BS"
+
+    print(
+        f'{customer["name"]} | Original: {customer["date"]} {customer["cal"]} | Converted: {output}'
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # Test text
+text = """
+Nepal is a beautiful country. Nepal has Mount Everest.
+Everest is the highest mountain in the world. Many tourists
+visit Nepal every year to see Everest and other mountains.
+Nepal is known for its mountains and natural beauty.
+"""
+
+
+def word_frequency(text):
+    # Remove punctuation
+    text = text.replace(".", "").replace(",", "")
+
+    # Convert to lowercase
+    text = text.lower()
+
+    # Split into words
+    words = text.split()
+
+    # Count frequency
+    freq = {}
+
+    for word in words:
+        if word in freq:
+            freq[word] += 1
+        else:
+            freq[word] = 1
+
+    # Sort by highest frequency
+    top_words = sorted(freq.items(), key=lambda x: x[1], reverse=True)[:3]
+
+    return top_words
+
+
+# Call function
+result = word_frequency(text)
+
+# Print output
+print("Top 3 words:\n")
+
+for word, count in result:
+    print(f"{word} — {count} times")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # Account data
+accounts = {
+    "A001": {"name": "Ramesh Thapa", "balance": 15000, "pin": "1234"},
+    "A002": {"name": "Sunita Karki", "balance": 8500,  "pin": "5678"},
+    "A003": {"name": "Bikash Rai",   "balance": 22000, "pin": "9012"}
+}
+
+
+def atm(account_id, pin, action, amount=0):
+
+    # Check account exists
+    if account_id not in accounts:
+        print("Account not found")
+        return
+
+    account = accounts[account_id]
+
+    # Check PIN
+    if account["pin"] != pin:
+        print("Incorrect PIN")
+        return
+
+    # Balance check
+    if action == "balance":
+        print(f"Account Holder: {account['name']}")
+        print(f"Current Balance: NPR {account['balance']}")
+
+    # Deposit
+    elif action == "deposit":
+        account["balance"] += amount
+        print(f"Deposited NPR {amount}")
+        print(f"New Balance: NPR {account['balance']}")
+
+    # Withdraw
+    elif action == "withdraw":
+        if amount <= account["balance"]:
+            account["balance"] -= amount
+            print(f"Withdrawn NPR {amount}")
+            print(f"Remaining Balance: NPR {account['balance']}")
+        else:
+            print("Insufficient funds")
+
+    else:
+        print("Invalid action")
+
+
+# Test cases
+atm("A001", "1234", "balance")
+
+atm("A002", "0000", "withdraw", 2000)   # wrong PIN
+
+atm("A002", "5678", "deposit", 3000)
+
+atm("A003", "9012", "withdraw", 25000)  # insufficient funds
+
+atm("A004", "1111", "balance")          # account not found
